@@ -4,6 +4,8 @@ import com.portfolio.app.Services.IHabilidadesService;
 import com.portfolio.app.model.habilidades;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -44,23 +45,21 @@ public class habilidadesController {
      }
 
     @DeleteMapping("/delete/{id}")
-    public @ResponseBody
-    String borrarHabilidad(@PathVariable Integer id) {
+    public ResponseEntity<?> borrarHabilidad(@PathVariable Integer id) {
         skillServ.borrarSkill(id);
-        return "Eliminado";
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("editar/{id}")
-    public @ResponseBody
-    String editarHabilidad(@PathVariable Integer id,
-            @RequestParam("nombre") String nuevoNombre,
-            @RequestParam("logo") String nuevoLogo) {
+    public ResponseEntity<?> editarHabilidad(@PathVariable Integer id,
+            @RequestBody habilidades hab) {
         habilidades skill = skillServ.buscarSkill(id);
-        skill.setNombre(nuevoNombre);
+        skill.setNombre(hab.getNombre());
 
-        skill.setLogo(nuevoLogo);
+        skill.setLogo(hab.getLogo());
         skillServ.crearSkill(skill);
-        return "Guardado";
+        return new ResponseEntity(HttpStatus.OK);
     }
+
 
 }

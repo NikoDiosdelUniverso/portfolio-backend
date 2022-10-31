@@ -50,25 +50,19 @@ public class personaController {
         personaServ.borrarPersona(id);
     }
 
-    //este metodo podria mejorarse
+   
     @PutMapping("/editar/{id}")
-    public @ResponseBody
-    String editarPersona(@PathVariable Integer id,
-            @RequestParam("nombre") String nuevoNombre,
-            @RequestParam("apellido") String nuevoApellido,
-            @RequestParam("titulo") String nuevoTitulo,
-            @RequestParam("img") String nuevoImg,
-            @RequestParam("email") String nuevoEmail,
-            @RequestParam("desc") String nuevoDesc,
-            @RequestParam("banner") String nuevoBanner) {
+    public ResponseEntity<?> editarPersona(@PathVariable Integer id,
+            @RequestBody persona pers) {
         persona persona = personaServ.buscarPersona(id);
-        persona.setNombre(nuevoNombre);
-        persona.setApellido(nuevoApellido);
-        persona.setFoto(nuevoImg);
-        persona.setDescripcion(nuevoDesc);
-        persona.setBanner(nuevoBanner);
-        persona.setTitulo(nuevoTitulo);
+        persona.setNombre(pers.getNombre());
+        persona.setApellido(pers.getApellido());
+        persona.setFoto(pers.getFoto());
+        persona.setDescripcion(pers.getDescripcion());
+        persona.setBanner(pers.getBanner());
+        persona.setTitulo(pers.getTitulo());
         personaServ.crearPersona(persona);
-        return "Saved";
+        return new ResponseEntity(HttpStatus.OK);
     }
+    
 }

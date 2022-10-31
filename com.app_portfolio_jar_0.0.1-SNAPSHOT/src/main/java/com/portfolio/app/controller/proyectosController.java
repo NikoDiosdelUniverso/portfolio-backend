@@ -6,6 +6,8 @@ import com.portfolio.app.Services.IProyectosService;
 import com.portfolio.app.model.proyectos;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -44,26 +45,22 @@ public class proyectosController {
      }
 
     @DeleteMapping("/delete/{id}")
-    public @ResponseBody String borrarProyecto(@PathVariable Integer id) {
+    public ResponseEntity<?> borrarProyecto(@PathVariable Integer id) {
         proServ.borrarProyecto(id);
-        return "Eliminado";
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/editar/{id}")
-    public @ResponseBody String editarProyecto(@PathVariable Integer id,
-            @RequestParam("nombre") String nuevoNombre,
-            @RequestParam("linksitio") String nuevoLinkSitio,
-            @RequestParam("linkcodigo") String nuevolinkCodigo,
-            @RequestParam("descripcion") String nuevoDescripcion,
-            @RequestParam("img") String nuevoImg) {
+    public ResponseEntity<?> editarProyecto(@PathVariable Integer id,
+            @RequestBody proyectos pro) {
         proyectos proyecto = proServ.buscarProyecto(id);
-        proyecto.setNombre(nuevoNombre);
-        proyecto.setLinkSitio(nuevoLinkSitio);
-        proyecto.setLinkCodigo(nuevolinkCodigo);
-        proyecto.setDescripcion(nuevoDescripcion); 
-        proyecto.setImagen(nuevoImg);
+        proyecto.setNombre(pro.getNombre());
+        proyecto.setLinkSitio(pro.getLinkCodigo());
+        proyecto.setLinkCodigo(pro.getLinkCodigo());
+        proyecto.setDescripcion(pro.getDescripcion()); 
+        proyecto.setImagen(pro.getImagen());
         proServ.crearProyecto(proyecto);
-        return "Guardado";
+        return new ResponseEntity(HttpStatus.OK);
     }  
-        
+    
 }

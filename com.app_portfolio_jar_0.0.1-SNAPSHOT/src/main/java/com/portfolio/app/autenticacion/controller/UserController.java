@@ -1,8 +1,9 @@
-package com.portfolio.autenticacion.controller;
+package com.portfolio.app.autenticacion.controller;
 
-import com.portfolio.autenticacion.model.Usuario;
-import com.portfolio.autenticacion.repository.UserRepository;
+import com.portfolio.app.autenticacion.model.Usuario;
+import com.portfolio.app.autenticacion.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +25,7 @@ public class UserController {
         System.out.println(userdata);
         Usuario user = userRepo.findByUserId(userdata.getUserId());
         if (user.getPassword().equals(userdata.getPassword())) {
-            return ResponseEntity.ok(user);
+            return new ResponseEntity(HttpStatus.OK);
         }
         return (ResponseEntity<?>) ResponseEntity.internalServerError();
     }

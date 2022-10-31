@@ -4,6 +4,8 @@ import com.portfolio.app.Services.IExperienciaService;
 import com.portfolio.app.model.experiencia;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -25,10 +26,9 @@ public class experienciaController {
     private IExperienciaService expServ;
 
     @PostMapping("/new")
-    public @ResponseBody
-    String agregarExperiencia(@RequestBody experiencia exp) {
+    public ResponseEntity<?> agregarExperiencia(@RequestBody experiencia exp) {
         expServ.crearExperiencia(exp);
-        return "Guardado";
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/ver")
@@ -44,29 +44,23 @@ public class experienciaController {
      }
 
     @DeleteMapping("/delete/{id}")
-    public @ResponseBody
-    String borrarExperiencia(@PathVariable Integer id) {
+    public ResponseEntity<?> borrarExperiencia(@PathVariable Integer id) {
         expServ.borrarExperiencia(id);
-        return "Eliminado";
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/editar/{id}")
-    public @ResponseBody
-    String editarExperiencia(@PathVariable Integer id,
-            @RequestParam("posicion") String nuevoposicion,
-            @RequestParam("empresa") String nuevoempresa,
-            @RequestParam("inicio") String nuevoinicio,
-            @RequestParam("fin") String nuevofin,
-            @RequestParam("descripcion") String nuevoDescripcion,
-            @RequestParam("logo") String nuevologo) {
-        experiencia experiencia = expServ.buscarExperiencia(id);
-        experiencia.setPosicion(nuevoposicion);
-        experiencia.setEmpresa(nuevoempresa);
-        experiencia.setInicio(nuevoinicio);
-        experiencia.setFin(nuevofin);
-        experiencia.setDescripcion(nuevoDescripcion);
-        experiencia.setLogo(nuevologo);
-        expServ.crearExperiencia(experiencia);
-        return "Guardado";
+    public ResponseEntity<?> editarExperiencia(@PathVariable Integer id,
+            @RequestBody experiencia exp) {
+        experiencia exper = expServ.buscarExperiencia(id);
+        exper.setPosicion(exp.getPosicion());
+        exper.setEmpresa(exp.getEmpresa());
+        exper.setInicio(exp.getInicio());
+        exper.setFin(exp.getFin());
+        exper.setDescripcion(exp.getDescripcion());
+        exper.setLogo(exp.getLogo());
+        expServ.crearExperiencia(exper);
+        return new ResponseEntity(HttpStatus.OK);
     }
+    
 }
