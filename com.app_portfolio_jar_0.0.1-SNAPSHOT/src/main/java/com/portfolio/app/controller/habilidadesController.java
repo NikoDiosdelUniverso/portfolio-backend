@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path = "/skills")
-@CrossOrigin(origins = "http://localhost:4200/")
+//@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins= "https://portfolio-abf44.web.app")
 public class habilidadesController {
 
     @Autowired
@@ -38,7 +39,7 @@ public class habilidadesController {
         return skillServ.verSkills();
     }
     
-        @GetMapping("detail/{id}")
+        @GetMapping("/detail/{id}")
      public @ResponseBody habilidades detailEducacion(@PathVariable Integer id) {
          habilidades skill= skillServ.buscarSkill(id);
          return skill;
@@ -50,7 +51,7 @@ public class habilidadesController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PutMapping("editar/{id}")
+    @PutMapping("/editar/{id}")
     public ResponseEntity<?> editarHabilidad(@PathVariable Integer id,
             @RequestBody habilidades hab) {
         habilidades skill = skillServ.buscarSkill(id);

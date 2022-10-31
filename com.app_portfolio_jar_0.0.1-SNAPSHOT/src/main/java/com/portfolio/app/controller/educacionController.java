@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path="/edu")
-@CrossOrigin(origins = "http://localhost:4200/")
+//@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins= "https://portfolio-abf44.web.app")
 public class educacionController {
     @Autowired 
   private IEducacionService eduServ;
@@ -36,7 +37,7 @@ public class educacionController {
         return eduServ.verEducacion();
     }
     
-    @GetMapping("detail/{id}")
+    @GetMapping("/detail/{id}")
      public @ResponseBody educacion detailEducacion(@PathVariable Integer id) {
          educacion edu= eduServ.buscarEducacion(id);
          return edu;

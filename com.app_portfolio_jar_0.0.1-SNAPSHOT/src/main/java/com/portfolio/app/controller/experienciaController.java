@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path = "/exp")
-@CrossOrigin(origins = "http://localhost:4200/")
+//@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins= "https://portfolio-abf44.web.app")
 public class experienciaController {
 
     @Autowired
@@ -37,7 +38,7 @@ public class experienciaController {
         return expServ.verExperiencia();
     }
     
-        @GetMapping("detail/{id}")
+        @GetMapping("/detail/{id}")
      public @ResponseBody experiencia detailEducacion(@PathVariable Integer id) {
          experiencia exp= expServ.buscarExperiencia(id);
          return exp;

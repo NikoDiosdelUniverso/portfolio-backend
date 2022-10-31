@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path="/pro")
-@CrossOrigin(origins = "http://localhost:4200/")
+//@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins= "https://portfolio-abf44.web.app")
 public class proyectosController {
         @Autowired 
          private IProyectosService proServ;
@@ -38,7 +39,7 @@ public class proyectosController {
         return proServ.verProyectos();
     }
     
-        @GetMapping("detail/{id}")
+        @GetMapping("/detail/{id}")
      public @ResponseBody proyectos detailEducacion(@PathVariable Integer id) {
          proyectos pro= proServ.buscarProyecto(id);
          return pro;
